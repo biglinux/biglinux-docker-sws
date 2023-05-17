@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to SWS</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            color: #343a40;
+            text-align: center;
+            padding: 20px;
+            display: flex; /* Novas propriedades para centralizar o container */
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Ajustar a altura para a altura da viewport */
+            margin: 0; /* Remover a margem padrão */
+        }
+        .welcome-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+            width: 50%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 2.5em;
+        }
+        p {
+            font-size: 1.2em;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="welcome-container">
+        <h1>Welcome to SWS (Static Web Server)!</h1>
+        <p>SWS is a cross-platform, high-performance & asynchronous web server for static files serving</p>
+        <a href="https://static-web-server.net" target="_blank">Learn more about SWS</a>
+    </div>
+</body>
+
+</html>

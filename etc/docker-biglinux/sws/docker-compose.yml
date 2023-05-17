@@ -1,0 +1,49 @@
+# Documentation: https://static-web-server.net/
+# Docker Compose version used
+version: "3.9"
+
+# Defines the services that will be run
+services:
+    # Service name
+    sws:
+        # Docker image that will be used to create the container
+        image: joseluisq/static-web-server:latest
+        # Name assigned to the container that will be created
+        container_name: sws
+        # Container restart policy. "always" means the container will be restarted whenever it stops.
+        restart: always
+        
+        # Environment variables passed to the container
+        #environment:
+        # Note: these environment variables are customizable, but also optional.
+            #- SERVER_HOST=127.0.0.1 # IP address the server will listen to
+            #- SERVER_PORT=80 # Port the server will listen to
+            #- SERVER_ROOT=/public # Root directory where the server will serve the files
+            #- SERVER_DIRECTORY_LISTING=true # Whether the server should list directories or not
+        
+        # Volumes mounted on the container. ${HOME}/Docker/SWS/html on the host will be mounted as /public in the container.
+        volumes:
+            - ${HOME}/Docker/SWS/html:/public
+        
+        # Labels assigned to the container. These are used by Traefik for HTTP routing.
+        #labels:
+        #  - "traefik.enable=true"
+        #  - "traefik.frontend.entryPoints=https"
+        #  - "traefik.backend=localhost_dev"
+        #  - "traefik.frontend.rule=Host:localhost.dev"
+        #  - "traefik.port=80"
+        
+        # Ports that will be exposed by the container. Port 8182 on the host will be directed to port 80 on the container.
+        ports:
+            - "8182:80"
+        
+        # Network the container will be connected to.
+        networks:
+            big-net:
+
+# Defines the networks that will be created
+networks:
+    # Network name
+    big-net:
+        # Name assigned to the network
+        name: big-net

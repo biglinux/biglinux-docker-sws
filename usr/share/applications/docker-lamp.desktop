@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Terminal=false
+Type=Application
+Name=Static Web Server
+Exec=/usr/bin/xdg-open http://localhost:8182
+Icon=/usr/share/icons/hicolor/scalable/apps/docker-sws.svg
+Categories=Docker;

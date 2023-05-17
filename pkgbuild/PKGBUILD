@@ -1,8 +1,8 @@
-# Maintainer: Barnabé di Kartola <barnabedikartola@gmail.com>
+# Maintainer: Tales A. Mendonça <talesam@gmail.com>
 
-pkgname=biglinux-package-template
-pkgdesc="Package template for biglinux"
-# depends=('')
+pkgname=biglinux-docker-sws
+pkgdesc="A cross-platform, high-performance & asynchronous web server for static files serving"
+depends=('biglinux-docker-config')
 # makedepends=('')
 # conflicts=('')
 pkgver=$(date +%y.%m.%d)

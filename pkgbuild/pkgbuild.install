@@ -1,30 +1,43 @@
-## arg 1:  the new package version
-#pre_install() {
-	# do something here
-#}
+# Executed after package installation
+post_install() {
+	# Check if Docker is installed
+	if ! command -v docker >/dev/null 2>&1; then
+		echo "The Docker package is not installed. Please install it before continuing."
+		exit 1
+	fi
 
-## arg 1:  the new package version
-#post_install() {
-    # do something here
-#}
+	# Start the SWS container using docker-compose
+    echo "Starting the Static Web Server container..."
 
-## arg 2:  the old package version
-#pre_upgrade() {
-	# do something here
-#}
+    # Expand $SUDO_USER and execute docker-compose with eval
+    eval "HOME=/home/$SUDO_USER docker-compose -f /etc/docker-biglinux/sws/docker-compose.yml up -d"
+    
+    # Symlink docker-compose.yml to Docker/SWS folder
+    echo "Creating symlink to docker-compose.yml..."
+    ln -s /etc/docker-biglinux/sws/docker-compose.yml /home/$SUDO_USER/Docker/SWS/docker-compose.yml
+    
+    # Copy file index.html to Docker/SWS folder
+    cp -f /etc/docker-biglinux/sws/index.html /home/$SUDO_USER/Docker/SWS/html/
+    
+    # Set the correct owner and group for the Docker folder and its contents
+    echo "Setting correct permissions for Docker folder..."
+    chown -R $SUDO_USER:$SUDO_USER /home/$SUDO_USER/Docker/SWS
+}
 
-## arg 2:  the old package version
-#post_upgrade() {
-	#post_install
-#}
+# Executed before package removal
+pre_remove() {
+	# Stop and remove the SWS container
+	echo "Stopping and removing the Static Web Server container..."
+	docker-compose -f /etc/docker-biglinux/sws/docker-compose.yml down
+	
+	# Remove symlink to docker-compose.yml in Docker/SWS folder
+    echo "Removing symbolic link to docker-compose.yml..."
+    rm -f /home/$SUDO_USER/Docker/SWS/docker-compose.yml
+}
 
-## arg 1:  the old package version
-#pre_remove() {
-	# do something here
-#}
-
-## arg 1:  the old package version
-#post_remove() {
-	# do something here
-#}
- 
+# Executed after package removal
+post_remove() {
+	# Remove the Docker image
+    echo "Removing the Static Web Server Docker image..."
+    docker rmi joseluisq/static-web-server:latest
+}
