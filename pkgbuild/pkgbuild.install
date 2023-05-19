@@ -1,3 +1,6 @@
+# Get the current non-root user
+CURRENT_USER=$(who | awk 'NR==1{print $1}')
+
 # Executed after package installation
 post_install() {
 	# Check if Docker is installed
@@ -9,34 +12,34 @@ post_install() {
 	# Start the SWS container using docker-compose
     echo "Starting the Static Web Server container..."
 
-    # Expand $SUDO_USER and execute docker-compose with eval
-    eval "HOME=/home/$SUDO_USER docker-compose -f /etc/docker-biglinux/sws/docker-compose.yml up -d"
+    # Expand $CURRENT_USER and execute docker-compose with eval
+    eval "HOME=/home/$CURRENT_USER docker-compose -f /etc/docker-biglinux/sws/docker-compose.yml up -d"
     
     # Symlink docker-compose.yml to Docker/SWS folder
     echo "Creating symlink to docker-compose.yml..."
-    ln -s /etc/docker-biglinux/sws/docker-compose.yml /home/$SUDO_USER/Docker/SWS/docker-compose.yml
+    ln -s /etc/docker-biglinux/sws/docker-compose.yml /home/$CURRENT_USER/Docker/SWS/docker-compose.yml
     
     # Copy file index.html to Docker/SWS folder
-    cp -f /etc/docker-biglinux/sws/index.html /home/$SUDO_USER/Docker/SWS/html/
+    cp -f /etc/docker-biglinux/sws/index.html /home/$CURRENT_USER/Docker/SWS/html/
     
     # Set the correct owner and group for the Docker folder and its contents
     echo "Setting correct permissions for Docker folder..."
-    chown -R $SUDO_USER:$SUDO_USER /home/$SUDO_USER/Docker/SWS
+    chown -R $CURRENT_USER:$CURRENT_USER /home/$CURRENT_USER/Docker/SWS
 }
 
 # Upgrade package
 post_upgrade() {
     # Copy file index.html to Docker/SWS folder only if it doesn't exist
-    if [ ! -f /home/$SUDO_USER/Docker/SWS/html/index.html ]; then
+    if [ ! -f /home/$CURRENT_USER/Docker/SWS/html/index.html ]; then
         echo "Copying index.html to Docker/SWS folder..."
-        cp -f /etc/docker-biglinux/sws/index.html /home/$SUDO_USER/Docker/SWS/html/
+        cp -f /etc/docker-biglinux/sws/index.html /home/$CURRENT_USER/Docker/SWS/html/
     else
         echo "File index.html already exists, skipping copy..."
     fi
     
     # Set the correct owner and group for the Docker folder and its contents
     echo "Setting correct permissions for Docker folder..."
-    chown -R $SUDO_USER:$SUDO_USER /home/$SUDO_USER/Docker/SWS
+    chown -R $CURRENT_USER:$CURRENT_USER /home/$CURRENT_USER/Docker/SWS
 }
 
 # Executed before package removal
@@ -47,7 +50,7 @@ pre_remove() {
 	
 	# Remove symlink to docker-compose.yml in Docker/SWS folder
     echo "Removing symbolic link to docker-compose.yml..."
-    rm -f /home/$SUDO_USER/Docker/SWS/docker-compose.yml
+    rm -f /home/$CURRENT_USER/Docker/SWS/docker-compose.yml
 }
 
 # Executed after package removal
