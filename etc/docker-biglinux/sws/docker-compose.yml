@@ -19,7 +19,12 @@ services:
             #- SERVER_HOST=127.0.0.1 # IP address the server will listen to
             #- SERVER_PORT=80 # Port the server will listen to
             #- SERVER_ROOT=/public # Root directory where the server will serve the files
-            #- SERVER_DIRECTORY_LISTING=true # Whether the server should list directories or not
+            
+            ## To use an "Index of", the 3 parameters below must be uncommented
+            #- SERVER_DIRECTORY_LISTING=true # Whether the server should list directories or not. If set to 'true', the server will list the contents of directories. If set to 'false', it will not.
+            #- SERVER_DIRECTORY_LISTING_ORDER=6 # Specifies the order in which directory entries are listed. Acceptable values are 0 (Name asc), 1 (Name desc), 2 (Last modified asc), 3 (Last modified desc), 4 (Size asc), 5 (Size desc), 6 (Unordered).
+            #- SERVER_DIRECTORY_LISTING_FORMAT=html # Specifies the output format for directory listings. Can be either 'html' (default) or 'json'. This setting is dependent on SERVER_DIRECTORY_LISTING being enabled.
+
         
         # Volumes mounted on the container. ${HOME}/Docker/SWS/html on the host will be mounted as /public in the container.
         volumes:
