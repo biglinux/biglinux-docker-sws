@@ -59,11 +59,11 @@ services:
             retries: 6
         # Network the container will be connected to.
         networks:
-            big-net:
+            - sws-net
 
 # Defines the networks that will be created
 networks:
     # Network name
-    big-net:
+    sws-net:
         # Name assigned to the network
-        name: big-net
+        name: sws-net
